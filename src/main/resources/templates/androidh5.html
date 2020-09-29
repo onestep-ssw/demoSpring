@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这是原生打开H5</title>
+</head>
+<body>
+<h1>H5调用测试</h1>
+<button onclick="demo()">demo1  JSAPI</button>
+<p id="p">这是旧的值</p>
+
+<button onclick="demo2()">demo2  JSAPI</button>
+<p id="p2">这是旧的值</p>
+
+<button onclick="openCamera()">打开相机</button>
+<p id="ps">拍照回调</p>
+
+请输入弹框值:<input type="text" id="alertVal"/>
+<button onclick="alertDemo()">弹窗功能</button>
+
+
+</body>
+</html>
+<script>
+
+
+
+
+
+
+
+    function demo() {
+       var result= window.JsAction.testToa("你好");
+       document.getElementById("p").innerHTML=result;
+    }
+    function demo2() {
+        var result=  window.JsAction.getStatus();
+        document.getElementById("p2").innerHTML=result;
+    }
+
+    function demo3(val) {
+        document.getElementById("p2").innerHTML=val;
+    }
+    function openCamera(){
+    window.JsAction.cameraDemo();
+    }
+
+    function backSucc(base){
+        document.getElementById("ps").innerHTML=base;
+    }
+
+    function alertDemo(){
+        var object = document.getElementById("alertVal").value;
+        alert(object);
+     //var val=document.getElementById("alertVal").val();
+     // window.JsAction.alertDemo(val);
+    }
+</script>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no,uc-fitscreen=yes">
+    <title>mpaas</title>
+    <style>
+        body {//安卓默认360
+        width: 100%;
+            font-size: 62.5%;
+        }
+
+        @media only screen and (min-width: 320px) {iphone5
+        html,
+        body {
+            font-size: 55.556% !important;
+        }
+        }
+        @media only screen and (min-width: 360px) {/*一般安卓手机*/
+        html,
+        body {
+            font-size: 62.5% !important;
+        }
+        }
+        @media only screen and (min-width: 375px) {
+            html,
+            body {
+                font-size: 65.10417% !important;
+            }
+        }
+        @media only screen and (min-width: 414px) { plus
+         html,
+         body {
+             font-size: 71.875% !important;
+         }
+        }
+        @media only screen and (min-width: 768px) {/**ipad**/
+        html,
+        body {
+            font-size: 133.3333% !important;
+        }
+        }
+        @media only screen and (min-width: 1024px) {/*ipad pro*/
+        html,
+        body {
+            font-size: 177.77778% !important;
+        }
+        }
+    </style>
+</head>
+<body>
+
+<button type="button" onclick="alertDemo()">mpaas     alert警告框</button>
+<button type="button" onclick="confirmDemo()">mpaas   confir警告框</button>
+<button type="button" onclick="btnScreen()">mPaaS截取屏幕并保存到相册<</button>
+
+<button type="button" onclick="readQrcode()">开始扫码</button>
+
+<button type="button" onclick="inteStatus()">自定义JSAPI获取网络状态</button>
+<button type="button" onclick="takePhoto()">自定义JSAPI 拍照上传</button>
+
+<button type="button" onclick="startRecord()">开始录音</button>
+<button type="button" onclick="stopRecord()">停止录音</button>
+<button type="button" onclick="accredit()">授权测试</button>
+
+<br/>
+<br/>
+<br/>
+<button type="button" onclick="startRecordFile()">开始文件录音</button>
+<button type="button" onclick="stopRecordFile()">停止文件录音</button>
+<!---->
+文件路径<input type="text" id="fileid" readonly="true">
+<br/>
+<br/>
+<br/>
+<button type="button" onclick="playRecord()">播放录音</button>
+
+&emsp;&emsp;
+<button type="button" onclick="playPauseRecord()">暂停播放录音</button>&emsp;&emsp;
+<button type="button" onclick="playContinueRecord()">继续播放录音</button>&emsp;&emsp;
+<button type="button" onclick="stopPlayRecord()">停止播放录音</button>&emsp;&emsp;
+
+<br/><br/>
+<button type="button" onclick="uploadRecord()">上传录音</button>
+
+
+<br/>
+<br/>
+<video id="vvvv"
+        src="../video/video123.mp4"  controls="controls" width="300px" height="200px"> </video>
+<button type="button" onclick="fullScreenVideo()">视频全屏</button>
+<br/><br/>
+<br/><br/><br/><br/><br/><br/>
+<a href="https://blog.csdn.net/">超链接</a>
+<br/><br/>
+<button type="button" onclick="videoTranscribe()">视频录制</button>
+<br/><br/>
+
+<button type="button" onclick="vibrateInterface()">振动一次</button>
+
+<button type="button" onclick="vibrateContinueInterface()">持续振动</button>
+<button type="button" onclick="notificationDemo()">通知栏信息</button>
+</body>
+</html>
+<script>
+
+    (function (width) {
+        var doc = width.document,
+            element = doc.documentElement,
+            i = 640,
+            d = i / 100,
+            o = "orientationchange" in width ? "orientationchange" : "resize",
+            a = function () {
+                var width = element.clientWidth || 320;
+                width > 640 && (width = 640);
+                element.style.fontSize = width / d + "px"
+            };
+        doc.addEventListener && (width.addEventListener(o, a, !1), doc.addEventListener("DOMContentLoaded", a, !1))
+    })(window);
+    //document.addEventListener("");
+
+    function fullScreenVideo() {
+        AlipayJSBridge.call('fullScreenVideo', {
+            url:"http://30.40.27.217:8080/video/video123.mp4"
+        }, function(e) {
+        });
+    }
+    function startRecordFile() {
+        AlipayJSBridge.call('startRecordFile', {
+            duration:20
+        }, function(e) {
+            alert(JSON.stringify(e))
+        });
+    }
+
+    //录音监听
+    document.addEventListener('recordCallBack',
+        function(e) {
+            document.getElementById('fileid').value=JSON.stringify(e.data.data);
+            alert("录音的监听"+JSON.stringify(e));
+            //alert( JSON.stringify(e.data));
+        },
+        false);
+
+
+    function stopRecordFile() {
+        AlipayJSBridge.call('stopRecordFile', {
+        }, function(e) {
+            document.getElementById('fileid').value=JSON.stringify(e.data);
+            alert(JSON.stringify(e.data));
+            //document.getElementById("fileid").value=
+            //alert(JSON.stringify(e.data));
+        });
+    }
+    function playRecord() {
+       var vl= document.getElementById('fileid').value;
+        AlipayJSBridge.call('playRecord', {
+            url:vl
+        }, function(e) {
+        });
+    }
+
+
+
+
+    function uploadRecord() {
+        var vl= document.getElementById('fileid').value;
+        AlipayJSBridge.call('uploadRecord', {
+            url:vl
+        }, function(e) {
+            alert(JSON.stringify(e.data));
+        });
+    }
+    //录音的其他操作
+
+    function playPauseRecord() {
+        AlipayJSBridge.call('playPauseRecord', {
+        }, function(e) {
+        });
+    }
+    function playContinueRecord() {
+        AlipayJSBridge.call('playContinueRecord', {
+        }, function(e) {
+        });
+    }
+    function stopPlayRecord() {
+        AlipayJSBridge.call('stopPlayRecord', {
+        }, function(e) {
+        });
+    }
+
+
+    /*视频录制的功能*/
+    //url:"http://30.40.27.217:8080/video/video123.mp4"
+    function videoTranscribe() {
+        AlipayJSBridge.call('videoTranscribe',{
+            limit:20
+        }, function(e) {
+            alert(JSON.stringify(e));
+        });
+    }
+
+    /********************************************/
+    function alertDemo() {
+        AlipayJSBridge.call('alert',{
+            title: '亲',
+            message: '你好',
+            button: '确定'
+        }, function(e) {
+            alert('就想弹个窗');
+        });
+    }
+
+    function confirmDemo() {
+        AlipayJSBridge.call('confirm', {
+            title: '亲',
+            message: '你好',
+            okButton: '确定',
+            cancelButton:'否'
+        }, function(e) {
+            //alert('就想弹个窗');
+            alert(JSON.stringify(e));
+        });
+    }
+
+    function btnScreen() {
+        AlipayJSBridge.call('snapshot', function(result) {
+            alert(result.success);
+            //console.log();
+        });
+    }
+
+    function readQrcode() {
+        AlipayJSBridge.call('scan', {
+            type: 'bar',
+            actionType: 'scanAndRoute'
+        }, function(result) {
+            alert(JSON.stringify(result));
+        });
+    }
+
+    function inteStatus() {
+        AlipayJSBridge.call('interStatus', {
+            },
+            function(result) {
+                alert(result.message);
+            });
+    }
+    function takePhoto() {
+        AlipayJSBridge.call('takePhoto', {
+            },
+            function(result) {
+                //alert(result.message);
+            });
+    }
+
+    //监听回调事件 拍照的
+    document.addEventListener('takeP',
+        function(e) {
+            alert("拍照的"+JSON.stringify(e));
+            //alert( JSON.stringify(e.data));
+        },
+        false);
+    //监听回调事件 录音的
+    document.addEventListener('recordP',
+        function(e) {
+            alert("录音的"+JSON.stringify(e));
+            //alert( JSON.stringify(e.data));
+        },
+        false);
+    //开始录音
+    function startRecord() {
+        AlipayJSBridge.call('startRecord', {
+            },
+            function(result) {
+                //alert(result.message);
+            });
+    }
+    //开始录音
+    function stopRecord() {
+        AlipayJSBridge.call('stopRecord', {
+            },
+            function(result) {
+                //alert(result.message);
+            });
+    }
+
+    function accredit(){
+        AlipayJSBridge.call('accredit', {
+            },
+            function(result) {
+                alert(result.success);
+            });
+    }
+
+    function resizeV() {
+        var x = document.getElementById("vvvv");
+        /*x.height = "1000";
+        x.width="1000";*/
+        console.log(x);
+
+        /*AlipayJSBridge.call('accredit', {
+            video:x
+            },
+            function(result) {
+               // alert(result.success);
+            });*/
+        //alertDemo(x);
+    }
+
+    /*振动的*/
+    function vibrateInterface() {
+        AlipayJSBridge.call('vibrateInterface', {
+            },
+            function(e) {
+            });
+    }
+
+    function vibrateContinueInterface() {
+        AlipayJSBridge.call('vibrateContinueInterface', {
+            },
+            function(e) {
+            });
+    }
+
+    /*通知栏信息*/
+    function notificationDemo() {
+        AlipayJSBridge.call('notificationDemo',{
+
+        },function (e) {
+
+        })
+    }
+</script>
