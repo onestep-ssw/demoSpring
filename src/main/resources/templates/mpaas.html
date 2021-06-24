@@ -100,6 +100,8 @@
 
 <button type="button" onclick="vibrateContinueInterface()">持续振动</button>
 <button type="button" onclick="notificationDemo()">通知栏信息</button>
+<br/><br/>
+<button type="button" onclick="locationFun()">定位测试</button>
 </body>
 </html>
 <script>
@@ -120,14 +122,15 @@
     //document.addEventListener("");
 
     function fullScreenVideo() {
+
         AlipayJSBridge.call('fullScreenVideo', {
-            url:"http://30.40.27.217:8080/video/video123.mp4"
+            url:"http://172.16.0.89:8080/video/video123.mp4"
         }, function(e) {
         });
     }
     function startRecordFile() {
         AlipayJSBridge.call('startRecordFile', {
-            duration:20
+            duration:120
         }, function(e) {
             alert(JSON.stringify(e))
         });
@@ -329,6 +332,14 @@
 
         },function (e) {
 
+        })
+    }
+    
+    function  locationFun() {
+        AlipayJSBridge.call('locationFun',{
+
+        },function (e) {
+            alert(e.data);
         })
     }
 </script>

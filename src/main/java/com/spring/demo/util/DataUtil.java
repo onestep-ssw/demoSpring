@@ -12,6 +12,9 @@ public class DataUtil {
         this.httpUrl = httpUrl;
     }
 
+    public DataUtil() {
+    }
+
     private int age;
     private String name;
     private int score;
